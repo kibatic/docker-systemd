@@ -22,7 +22,7 @@ install:
 script:
   # Basic role syntax check
   - cd tests
-  - sudo docker run -it --rm -v ${PWD}:/app -w /app kitpages/docker-ansible:$ANSIBLE_VERSION ansible-playbook test.yml -i tests/inventory --syntax-check
+  - sudo docker run -it --rm -v ${PWD}:/app -w /app kitpages/docker-ansible:$ANSIBLE_VERSION ansible-playbook test.yml -i inventory --syntax-check
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
