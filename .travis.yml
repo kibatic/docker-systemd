@@ -1,0 +1,29 @@
+---
+language: generic
+# Use the new container infrastructure
+sudo: required
+
+services:
+  - docker
+
+env:
+  - ANSIBLE_VERSION: 2.0
+  - ANSIBLE_VERSION: 2.1
+  - ANSIBLE_VERSION: 2.2
+  - ANSIBLE_VERSION: 2.3
+
+install:
+  # Pull container
+  - sudo docker pull kitpages/docker-ansible:$ANSIBLE_VERSION
+
+  # Check ansible version
+  - sudo docker run -it --rm -v ${PWD}:/ansible -w /ansible kitpages/docker-ansible:$ANSIBLE_VERSION ansible-playbook --version
+
+script:
+  # Basic role syntax check
+  - cd tests
+  - sudo docker run -it --rm -v ${PWD}:/app -w /app kitpages/docker-ansible:$ANSIBLE_VERSION ansible-playbook test.yml -i tests/inventory --syntax-check
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  email: false
