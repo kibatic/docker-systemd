@@ -1,0 +1,72 @@
+{% set unit = item %}
+{% set unit_name = unit.name %}
+{% set container_home = container_data_home ~ "/" ~ unit_name ~ "/" %}
+
+[Unit]
+{% block unit %}
+Description={{ unit.description|default(unit_name) }}
+Requires=docker.service
+After=docker.service
+{% endblock %}
+
+[Service]
+{% block service %}
+Restart=always
+RestartSec={{ systemd_restart_sec|default(10) }}
+
+ExecStartPre=-/usr/bin/docker kill {{ unit_name }}
+ExecStartPre=-/usr/bin/docker rm {{ unit_name }}
+
+{% if unit.exec_pre_starts is defined and unit.exec_pre_starts is iterable %}
+{% for exec_pre_start in unit.exec_pre_starts %}
+ExecStartPre=-{{ exec_pre_start }}
+{% endfor %}
+{% endif %}
+
+ExecStart=/usr/bin/docker run --log-driver=gelf --log-opt tag=docker --log-opt gelf-address=udp://{{ logstash_address }}:12201
+{%- if unit.volumes is defined and unit.volumes is iterable %}
+{%- for volume in unit.volumes + default_volumes %}
+ --volume {% if volume[0] != '/' %}{{ container_home }}{%endif%}{{ volume }}
+{%- endfor -%}
+{%- endif %}
+{%- if unit.volumes_from is defined and unit.volumes_from is iterable %}
+{%- for volume_from in unit.volumes_from %}
+ --volumes-from {{ volume_from }}
+{%- endfor -%}
+{%- endif -%}
+{%- if unit.environment is defined and unit.environment is iterable %}
+ --env-file "/etc/sysconfig/{{ unit_name }}"
+{%- endif -%}
+{%- if unit.ports is defined and unit.ports is iterable %}
+{%- for port in unit.ports %}
+ -p {{ port }}
+{%- endfor -%}
+{%- endif -%}
+{%- if unit.links is defined and unit.links is iterable %}
+{%- for link in unit.links %}
+ --link {{ link }}
+{%- endfor %}
+{%- endif %}
+ {% if unit.labels is defined %}{% for label in unit.labels %}--label {{ label }} {% endfor %}{% endif %}
+{% if unit.links is not defined %} --network={{ unit.network|default('kibatic') }} --net-alias={{ unit.net_alias|default(unit.name) }} {% endif %}
+{%- if unit.privileged is defined %}
+ --privileged
+{%- endif %}
+{%- if unit.options is defined %}
+ {{ unit.options }}
+{%- endif %}
+{%- if unit.expose is defined and unit.expose is iterable %}
+ --expose {{ unit.expose|join(',') }}
+{%- endif %}
+ --name {{ unit_name }} {{ unit.image }} {% if unit.command is defined %}{{ unit.command }}{% endif %}
+
+ExecStop=/usr/bin/docker kill {{ unit_name }}
+{% endblock %}
+
+[Install]
+{% block install %}
+WantedBy=local.target
+{% endblock %}
+{% block boot %}
+WantedBy=default.target
+{% endblock %}

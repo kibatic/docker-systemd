@@ -1,0 +1,67 @@
+- name: create unit
+  with_items: "{{systemd_units}}"
+  template: src={{ item.template_name|default('default') }}.service.j2
+            dest=/lib/systemd/system/{{ item.name }}.service
+  tags:
+      - systemd
+      - systemd_units
+
+- name: ensure environnement directory exists
+  file: path=/etc/sysconfig state=directory
+  tags:
+      - systemd
+      - systemd_units
+
+- name: create env file
+  with_items: "{{systemd_units}}"
+  template: src=environment.j2
+            dest="/etc/sysconfig/{{ item.name }}"
+  tags:
+      - systemd
+      - systemd_units
+
+- name: ensure necessary directories exist
+  file: path="/home/cloud/containers/{{item.0.name}}/{{item.1.dest_dir|default('')}}" state=directory mode=755
+  with_subelements:
+    - systemd_units
+    - host_copy
+  tags:
+      - systemd
+      - systemd_units
+
+- name: copy files for containers volumes
+  copy: src="{{item.1.src}}" dest="/home/cloud/containers/{{item.0.name}}/{{item.1.dest_dir|default('')}}/{{item.1.dest|default('')}}" mode=755
+  with_subelements:
+    - systemd_units
+    - host_copy
+  when: item.1.template is not defined or item.1.template == false
+  tags:
+      - systemd
+      - systemd_units
+
+- name: copy files for containers volumes (templates)
+  template: src="{{item.1.src}}" dest="/home/cloud/containers/{{item.0.name}}/{{item.1.dest_dir|default('')}}/{{item.1.dest|default('')}}"
+  with_subelements:
+    - systemd_units
+    - host_copy
+  when: item.1.template is defined and item.1.template == true
+
+- name: reload systemd
+  shell: systemctl daemon-reload
+  tags:
+      - systemd
+      - systemd_units
+
+- name: enable service
+  shell: systemctl enable {{ item.name }}
+  with_items: "{{systemd_units}}"
+  tags:
+      - systemd
+      - systemd_units
+
+- name: restart service
+  with_items: "{{systemd_units}}"
+  shell: "systemctl restart {{ item.name }}"
+  tags:
+      - systemd
+      - systemd_units
