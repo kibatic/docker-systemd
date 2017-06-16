@@ -1,2 +1,4 @@
 ---
-# vars file for docker-systemd
+default_volumes:
+  - /etc/localtime:/etc/localtime:ro
+container_data_home: '/home/cloud/containers'
