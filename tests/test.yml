@@ -1,4 +1,6 @@
 ---
-- hosts: localhost
+- hosts: systemd
   roles:
     - docker-systemd
+  vars_files:
+    - units/nginx.yml

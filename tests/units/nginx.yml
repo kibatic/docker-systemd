@@ -1,0 +1,6 @@
+systemd_units:
+  - name: nginx-proxy
+    image: nginx:1.11
+    host_copy: []
+    ports:
+      - 8080:80
