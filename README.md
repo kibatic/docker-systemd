@@ -11,6 +11,13 @@ Requirements
 
 * Docker daemon installed on host system
 
+Installation
+------------
+
+```bash
+$ ansible-galaxy install kibatic.docker-systemd
+```
+
 Role Variables
 --------------
 
@@ -30,7 +37,7 @@ Including an example of how to use your role (for instance, with variables passe
 
 ```
 - hosts:      my.awsome.host.example.com
-  roles:      [ systemd ]
+  roles:      [ kibatic.docker-systemd ]
   vars_files: [ vars/units/my-awsome-service/units.yml ]
   tags:
     - my-awsome-service
