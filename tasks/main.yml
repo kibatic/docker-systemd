@@ -46,6 +46,13 @@
     - host_copy
   when: item.1.template is defined and item.1.template == true
 
+- name: create docker networks
+  with_items: "{{systemd_units}}"
+  shell: docker network create {{ item.network|default(default_network_name) }} || true
+  tags:
+      - systemd
+      - systemd_units
+
 - name: reload systemd
   shell: systemctl daemon-reload
   tags:
