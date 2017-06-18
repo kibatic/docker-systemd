@@ -24,5 +24,5 @@ run-test:
 	goss -g tests/goss.yaml v
 
 clean:
-	-@docker kill systemd nginx-proxy
-	-@docker rm systemd nginx-proxy
+	-@docker kill systemd nginx
+	-@docker rm systemd nginx
