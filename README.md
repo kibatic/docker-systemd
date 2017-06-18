@@ -28,6 +28,10 @@ default_volumes:
   - /etc/localtime:/etc/localtime:ro
 # Directory where all container data will be stored: volumes, uploaded config files, ...
 container_data_home: '/home/cloud/containers'
+# Default options passed to docker run
+default_docker_options: ''
+# Default network name
+default_network_name: default_network
 ```
 
 Example Playbook
@@ -41,6 +45,28 @@ Including an example of how to use your role (for instance, with variables passe
   vars_files: [ vars/units/my-awsome-service/units.yml ]
   tags:
     - my-awsome-service
+```
+
+Example Unit
+------------
+
+```yaml
+systemd_units:
+  - name: symfony_web
+    image: my_awsome_symfony_image
+    host_copy: []
+    environment:
+      SYMFONY__DATABASE__HOST: symfony_db
+      SYMFONY__DATABASE__USER: root
+      SYMFONY__DATABASE__PASSWORD: root
+      SYMFONY__DATABASE__NAME: demo
+
+  - name: symfony_db
+    image: mysql:5.5
+    host_copy: []
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: demo
 ```
 
 License

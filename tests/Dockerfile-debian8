@@ -1,0 +1,18 @@
+FROM minimum2scp/systemd-jessie
+
+ENV DEBIAN_FRONTEND noninteractive
+
+COPY data/key.pub /root/.ssh/authorized_keys
+
+RUN apt-get -qq -y update &&\
+    apt-get -qq -y install python-simplejson apt-transport-https ca-certificates curl gnupg2 software-properties-common &&\
+    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - &&\
+    apt-key fingerprint 0EBFCD88 &&\
+    add-apt-repository \
+      "deb [arch=amd64] https://download.docker.com/linux/debian \
+      $(lsb_release -cs) \
+      stable" &&\
+    apt-get -qq -y update &&\
+    apt-get -qq -y install docker-ce &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

@@ -1,0 +1,7 @@
+systemd_units:
+  - name: nginx
+    template_name: templates/test-systemd
+    image: nginx:1.11
+    host_copy: []
+    ports:
+      - 1337:80

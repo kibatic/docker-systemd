@@ -23,7 +23,7 @@
 - name: ensure necessary directories exist
   file: path="/home/cloud/containers/{{item.0.name}}/{{item.1.dest_dir|default('')}}" state=directory mode=755
   with_subelements:
-    - systemd_units
+    - "{{ systemd_units }}"
     - host_copy
   tags:
       - systemd
@@ -32,7 +32,7 @@
 - name: copy files for containers volumes
   copy: src="{{item.1.src}}" dest="/home/cloud/containers/{{item.0.name}}/{{item.1.dest_dir|default('')}}/{{item.1.dest|default('')}}" mode=755
   with_subelements:
-    - systemd_units
+    - "{{ systemd_units }}"
     - host_copy
   when: item.1.template is not defined or item.1.template == false
   tags:
@@ -42,9 +42,16 @@
 - name: copy files for containers volumes (templates)
   template: src="{{item.1.src}}" dest="/home/cloud/containers/{{item.0.name}}/{{item.1.dest_dir|default('')}}/{{item.1.dest|default('')}}"
   with_subelements:
-    - systemd_units
+    - "{{ systemd_units }}"
     - host_copy
   when: item.1.template is defined and item.1.template == true
+
+- name: create docker networks
+  with_items: "{{systemd_units}}"
+  shell: docker network create {{ item.network|default(default_network_name) }} || true
+  tags:
+      - systemd
+      - systemd_units
 
 - name: reload systemd
   shell: systemctl daemon-reload

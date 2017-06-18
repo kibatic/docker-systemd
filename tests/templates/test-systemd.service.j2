@@ -1,0 +1,5 @@
+{% extends "templates/default.service.j2" %}
+
+# Disable docker requirements in systemd test image
+{% block requires %}{% endblock %}
+{% block after %}{% endblock %}
