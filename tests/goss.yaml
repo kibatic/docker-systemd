@@ -1,0 +1,6 @@
+http:
+  http://localhost:1337:
+    status: 200
+    timeout: 5000
+    body:
+      - Welcome to nginx!
