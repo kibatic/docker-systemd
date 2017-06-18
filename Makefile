@@ -7,6 +7,8 @@ syntax-check:
 test: clean syntax-check run-test
 
 run-test:
+	@echo "Copy default template to test folder"
+	cp templates/default.service.j2 tests/templates/
 	@echo "Installing goss"
 	stat /usr/local/bin/goss || curl -fsSL https://goss.rocks/install | sudo sh
 	@echo "Building systemd image"
