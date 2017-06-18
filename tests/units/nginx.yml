@@ -1,5 +1,5 @@
 systemd_units:
-  - name: nginx-proxy
+  - name: nginx
     template_name: templates/test-systemd
     image: nginx:1.11
     host_copy: []

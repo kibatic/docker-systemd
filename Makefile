@@ -15,9 +15,9 @@ run-test:
 	# Ping docker systemd container
 	@docker run -it --link systemd:systemd debian ping systemd -c 5
 	@sudo docker run --link systemd:systemd -it --rm -v ${PWD}:/app/roles/docker-systemd -w /app/roles/docker-systemd/tests kitpages/docker-ansible:${ANSIBLE_VERSION} ansible-playbook test.yml -i inventory
-	sleep 3
+	sleep 10
 	goss -g tests/goss.yaml v
 
 clean:
-	-@docker kill systemd
-	-@docker rm systemd
+	-@docker kill systemd nginx-proxy
+	-@docker rm systemd nginx-proxy
