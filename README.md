@@ -5,6 +5,7 @@ This role allow to define unit files in yml (similar to docker compose) and gene
 This could be taken as a very simple and light but powerfull orchestration system.
 
 [![Build Status](https://travis-ci.org/kibatic/docker-systemd.svg?branch=master)](https://travis-ci.org/kibatic/docker-systemd)
+[![Ansible Role](https://img.shields.io/ansible/role/18514.svg)](https://galaxy.ansible.com/kibatic/docker-systemd/)
 
 Requirements
 ------------
