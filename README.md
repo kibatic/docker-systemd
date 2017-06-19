@@ -1,5 +1,5 @@
-Role Name
-=========
+kibatic.docker-systemd
+======================
 
 This role allow to define unit files in yml (similar to docker compose) and generate systemd unit on remote hosts.
 This could be taken as a very simple and light but powerfull orchestration system.
