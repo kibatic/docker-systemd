@@ -19,3 +19,13 @@ file:
     filetype: file # file, symlink, directory
     contains: # Check file content for these patterns
       - "Test file copy"
+  /lib/systemd/system/nginx.service:
+    # required attributes
+    exists: true
+    # optional attributes
+    mode: "0644"
+    owner: root
+    group: root
+    filetype: file # file, symlink, directory
+    contains: # Check file content for these patterns
+      - "--add-host test:8.8.8.8"

@@ -9,3 +9,5 @@ systemd_units:
       - 1337:80
     environment:
       FOO: bar
+
+default_docker_options: '--add-host test:8.8.8.8'
