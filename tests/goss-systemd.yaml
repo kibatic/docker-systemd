@@ -1,0 +1,11 @@
+file:
+  /etc/sysconfig/nginx:
+    # required attributes
+    exists: true
+    # optional attributes
+    mode: "0644"
+    owner: root
+    group: root
+    filetype: file # file, symlink, directory
+    contains: # Check file content for these patterns
+      - FOO=bar

@@ -5,3 +5,5 @@ systemd_units:
     host_copy: []
     ports:
       - 1337:80
+    environment:
+      FOO: bar

@@ -14,14 +14,14 @@ run-test:
 	@echo "Building systemd image"
 	@sudo docker build -f tests/Dockerfile-debian8 -t systemd tests/
 	@echo "Run systemd image"
-	@docker run --name systemd -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock:ro --tmpfs /run --tmpfs /run/lock -d --privileged=true -v /sys/fs/cgroup:/sys/fs/cgroup:ro systemd
+	@docker run --name systemd -v ${PWD}/tests:/tests -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock:ro --tmpfs /run --tmpfs /run/lock -d --privileged=true -v /sys/fs/cgroup:/sys/fs/cgroup:ro systemd
 	# Ping docker systemd container
 	@docker run -it --link systemd:systemd debian ping systemd -c 5
 	@echo "Run ansible test playbook"
 	@sudo docker run --link systemd:systemd -it --rm -v ${PWD}:/app/roles/docker-systemd -w /app/roles/docker-systemd/tests kitpages/docker-ansible:${ANSIBLE_VERSION} ansible-playbook test.yml -i inventory
-	sleep 10
 	@echo "Run final tests"
-	goss -g tests/goss.yaml v
+	docker exec systemd goss -g /tests/goss-systemd.yaml v
+	goss -g tests/goss.yaml v --retry-timeout 10s
 
 clean:
 	-@docker kill systemd nginx
