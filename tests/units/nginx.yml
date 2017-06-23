@@ -2,6 +2,8 @@ systemd_units:
   - name: nginx
     template_name: templates/test-systemd
     image: nginx:1.11
+    labels:
+      - test_label=foo1234
     host_copy:
       - src: units/data/test.conf
         dest:

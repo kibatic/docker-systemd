@@ -4,3 +4,12 @@ http:
     timeout: 5000
     body:
       - Welcome to nginx!
+command:
+  docker inspect nginx:
+    # required attributes
+    exit-status: 0
+    # optional attributes
+    stdout:
+      - "\"test_label\": \"foo1234\""
+    stderr: []
+    timeout: 10000 # in milliseconds
