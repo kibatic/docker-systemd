@@ -2,7 +2,9 @@ systemd_units:
   - name: nginx
     template_name: templates/test-systemd
     image: nginx:1.11
-    host_copy: []
+    host_copy:
+      - src: units/data/test.conf
+        dest:
     ports:
       - 1337:80
     environment:
