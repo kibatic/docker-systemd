@@ -12,4 +12,11 @@ systemd_units:
     environment:
       FOO: bar
 
+  # Cover https://github.com/kibatic/docker-systemd/issues/3
+  - name: nginx-host
+    template_name: templates/test-systemd
+    image: nginx:1.11
+    host_copy: []
+    network: host
+
 default_docker_options: '--add-host test:8.8.8.8'

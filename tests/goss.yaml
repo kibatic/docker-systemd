@@ -4,6 +4,12 @@ http:
     timeout: 5000
     body:
       - Welcome to nginx!
+  http://localhost:
+    status: 200
+    timeout: 5000
+    body:
+      - Welcome to nginx!
+
 command:
   docker inspect nginx:
     # required attributes
