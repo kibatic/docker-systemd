@@ -29,6 +29,7 @@ file:
     filetype: file # file, symlink, directory
     contains: # Check file content for these patterns
       - "--add-host test:8.8.8.8"
+      - "--volume /etc/localtime:/etc/localtime:ro"
   # Cover https://github.com/kibatic/docker-systemd/issues/3
   /lib/systemd/system/nginx-host.service:
     exists: true
