@@ -28,8 +28,13 @@ ExecStartPre=-{{ exec_pre_start }}
 {% endif %}
 
 ExecStart=/usr/bin/docker run {{ default_docker_options }}
+{%- if default_volumes is defined and default_volumes is iterable %}
+{%- for volume in default_volumes %}
+ --volume {{ volume }}
+{%- endfor -%}
+{%- endif %}
 {%- if unit.volumes is defined and unit.volumes is iterable %}
-{%- for volume in unit.volumes + default_volumes %}
+{%- for volume in unit.volumes %}
  --volume {% if volume[0] != '/' %}{{ container_home }}{%endif%}{{ volume }}
 {%- endfor -%}
 {%- endif %}
