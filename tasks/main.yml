@@ -1,3 +1,2 @@
-- name: Create systemd units
-  import_tasks: create_unit.yml
-  when: systemd_units is defined systemd_units|length > 0
+- include: create_unit.yml
+  when: systemd_units is defined and systemd_units|length > 0
