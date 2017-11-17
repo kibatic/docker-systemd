@@ -21,7 +21,7 @@ run-test:
 	@sudo docker run --link systemd:systemd -it --rm -v ${PWD}:/app/roles/docker-systemd -w /app/roles/docker-systemd/tests kitpages/docker-ansible:${ANSIBLE_VERSION} ansible-playbook test.yml -i inventory
 	@echo "Run final tests"
 	docker exec systemd goss -g /tests/goss-systemd.yaml v
-	goss -g tests/goss.yaml v --retry-timeout 10s
+	goss -g tests/goss.yaml v --retry-timeout 15s
 
 clean:
 	-@docker kill systemd nginx
