@@ -25,7 +25,7 @@ run-test:
 	@echo "Run ansible remove playbook"
 	@sudo docker run --link systemd:systemd -it --rm -v ${PWD}:/app/roles/docker-systemd -w /app/roles/docker-systemd/tests kitpages/docker-ansible:${ANSIBLE_VERSION} ansible-playbook test_remove.yml -i inventory
 	@echo "Run tests"
-	goss -g tests/goss_remove.yaml v
+	docker exec systemd goss -g /tests/goss-systemd_remove.yaml v
 clean:
 	-@docker kill systemd nginx
 	-@docker rm systemd nginx
