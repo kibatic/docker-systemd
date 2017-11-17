@@ -4,3 +4,4 @@ default_volumes:
 container_data_home: '/home/cloud/containers'
 default_docker_options: ''
 default_network_name: default_network
+removed_units: []
