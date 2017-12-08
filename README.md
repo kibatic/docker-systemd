@@ -33,6 +33,8 @@ container_data_home: '/home/cloud/containers'
 default_docker_options: ''
 # Default network name
 default_network_name: default_network
+# Units to be removed from system
+removed_units: []
 ```
 
 Example Playbook
@@ -46,6 +48,13 @@ Including an example of how to use your role (for instance, with variables passe
   vars_files: [ vars/units/my-awsome-service/units.yml ]
   tags:
     - my-awsome-service
+
+# This line ensure a removed service is not present on the system
+- hosts: my.awsome.host.example.com
+  roles: [ kibatic.docker-systemd ]
+  vars:
+    removed_units:
+      - my-removed-service
 ```
 
 Example Unit

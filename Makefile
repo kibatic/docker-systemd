@@ -22,7 +22,10 @@ run-test:
 	@echo "Run final tests"
 	docker exec systemd goss -g /tests/goss-systemd.yaml v
 	goss -g tests/goss.yaml v --retry-timeout 15s
-
+	@echo "Run ansible remove playbook"
+	@sudo docker run --link systemd:systemd -it --rm -v ${PWD}:/app/roles/docker-systemd -w /app/roles/docker-systemd/tests kitpages/docker-ansible:${ANSIBLE_VERSION} ansible-playbook test_remove.yml -i inventory
+	@echo "Run tests"
+	docker exec systemd goss -g /tests/goss-systemd_remove.yaml v
 clean:
 	-@docker kill systemd nginx
 	-@docker rm systemd nginx

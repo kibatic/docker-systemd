@@ -1,0 +1,31 @@
+- name: Stop service
+  with_items: "{{removed_units}}"
+  shell: "systemctl stop {{ item }}"
+
+- name: Disable service
+  with_items: "{{removed_units}}"
+  shell: "systemctl disable {{ item }}"
+
+- name: Remove unit config file
+  with_items: "{{removed_units}}"
+  file:
+    path: "/etc/sysconfig/{{ item }}"
+    state: absent
+
+- name: Remove unit file
+  with_items: "{{removed_units}}"
+  file:
+    path: "/lib/systemd/system/{{ item }}.service"
+    state: absent
+
+- name: Remove unit data files
+  with_items: "{{removed_units}}"
+  file:
+    path: "/home/cloud/containers/{{ item }}/"
+    state: absent
+
+- name: Disable service
+  shell: "systemctl reset-failed"
+
+- name: Disable service
+  shell: "systemctl daemon-reload"

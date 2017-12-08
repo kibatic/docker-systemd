@@ -1,0 +1,13 @@
+file:
+  /etc/sysconfig/nginx:
+    # required attributes
+    exists: false
+  /home/cloud/containers/nginx/test.conf:
+    # required attributes
+    exists: false
+  /lib/systemd/system/nginx.service:
+    # required attributes
+    exists: false
+port:
+  tcp:80:
+    listening: false
