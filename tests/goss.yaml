@@ -17,5 +17,6 @@ command:
     # optional attributes
     stdout:
       - "\"test_label\": \"foo1234\""
+      - "\"fooLabel\": \"barLabel\""
     stderr: []
     timeout: 10000 # in milliseconds
