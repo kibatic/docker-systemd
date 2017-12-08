@@ -1,2 +1,5 @@
 - include: create_unit.yml
   when: systemd_units is defined and systemd_units|length > 0
+
+- include: remove_unit.yml
+  when: removed_units|length > 0

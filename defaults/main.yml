@@ -5,3 +5,4 @@ container_data_home: '/home/cloud/containers'
 default_docker_options: ''
 default_docker_labels: []
 default_network_name: default_network
+removed_units: []

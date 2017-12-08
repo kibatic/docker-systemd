@@ -1,0 +1,5 @@
+- hosts: systemd
+  roles:
+    - docker-systemd
+  vars_files:
+    - vars/remove.yml
