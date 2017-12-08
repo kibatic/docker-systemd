@@ -30,6 +30,7 @@ file:
     contains: # Check file content for these patterns
       - "--add-host test:8.8.8.8"
       - "--volume /etc/localtime:/etc/localtime:ro"
+      - "--label fooLabel=barLabel"
   # Cover https://github.com/kibatic/docker-systemd/issues/3
   /lib/systemd/system/nginx-host.service:
     exists: true

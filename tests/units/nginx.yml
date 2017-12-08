@@ -20,3 +20,5 @@ systemd_units:
     network: host
 
 default_docker_options: '--add-host test:8.8.8.8'
+default_docker_labels:
+  - fooLabel=barLabel

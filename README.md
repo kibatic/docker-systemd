@@ -31,6 +31,8 @@ default_volumes:
 container_data_home: '/home/cloud/containers'
 # Default options passed to docker run
 default_docker_options: ''
+# Default labels set on each container
+default_docker_labels: []
 # Default network name
 default_network_name: default_network
 # Units to be removed from system
