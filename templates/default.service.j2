@@ -57,6 +57,7 @@ ExecStart=/usr/bin/docker run {{ default_docker_options }}
 {%- endfor %}
 {%- endif %}
  {% if unit.labels is defined %}{% for label in unit.labels %}--label {{ label }} {% endfor %}{% endif %}
+ {% for label in default_docker_labels %}--label {{ label }} {% endfor %}
 {%- if unit.links is not defined %}
 {% set network = unit.network|default(default_network_name) %}
  --network={{ network }}
