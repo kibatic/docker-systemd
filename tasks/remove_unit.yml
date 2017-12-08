@@ -1,31 +1,38 @@
 - name: Stop service
   with_items: "{{removed_units}}"
   shell: "systemctl stop {{ item }}"
+  ignore_errors: yes
 
 - name: Disable service
   with_items: "{{removed_units}}"
   shell: "systemctl disable {{ item }}"
+  ignore_errors: yes
 
 - name: Remove unit config file
   with_items: "{{removed_units}}"
   file:
     path: "/etc/sysconfig/{{ item }}"
     state: absent
+  ignore_errors: yes
 
 - name: Remove unit file
   with_items: "{{removed_units}}"
   file:
     path: "/lib/systemd/system/{{ item }}.service"
     state: absent
+  ignore_errors: yes
 
 - name: Remove unit data files
   with_items: "{{removed_units}}"
   file:
     path: "/home/cloud/containers/{{ item }}/"
     state: absent
+  ignore_errors: yes
 
 - name: Disable service
   shell: "systemctl reset-failed"
+  ignore_errors: yes
 
 - name: Disable service
   shell: "systemctl daemon-reload"
+  ignore_errors: yes
