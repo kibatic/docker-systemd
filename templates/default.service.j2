@@ -6,7 +6,7 @@
 {% block unit %}
 Description={{ unit.description|default(unit_name) }}
 {% block requires %}
-Requires=docker.service
+Wants=docker.service
 {% endblock %}
 {% block after %}
 After=docker.service
