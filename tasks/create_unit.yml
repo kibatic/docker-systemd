@@ -67,6 +67,7 @@
       - systemd_units
 
 - name: restart service
+  when: item.restart_unit|default(restart_units) == true
   with_items: "{{systemd_units}}"
   shell: "systemctl restart {{ item.name }}"
   tags:
