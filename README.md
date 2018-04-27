@@ -66,6 +66,7 @@ Example Unit
 systemd_units:
   - name: symfony_web
     image: my_awsome_symfony_image
+    restart_unit: true # whether to restart unit when running role or not (could be dangerous on sql clusters)
     host_copy: []
     environment:
       SYMFONY__DATABASE__HOST: symfony_db
