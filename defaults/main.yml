@@ -6,3 +6,4 @@ default_docker_options: ''
 default_docker_labels: []
 default_network_name: default_network
 removed_units: []
+restart_units: true
