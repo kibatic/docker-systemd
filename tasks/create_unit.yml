@@ -46,6 +46,7 @@
   with_subelements:
     - "{{ systemd_units }}"
     - host_copy
+    - skip_missing: True
   when: item.1.template is defined and item.1.template == true
 
 - name: create docker networks
