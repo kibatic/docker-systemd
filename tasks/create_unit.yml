@@ -25,6 +25,7 @@
   with_subelements:
     - "{{ systemd_units }}"
     - host_copy
+    - skip_missing: True
   tags:
       - systemd
       - systemd_units
@@ -34,6 +35,7 @@
   with_subelements:
     - "{{ systemd_units }}"
     - host_copy
+    - skip_missing: True
   when: item.1.template is not defined or item.1.template == false
   tags:
       - systemd
