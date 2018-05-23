@@ -16,6 +16,13 @@ systemd_units:
   - name: nginx-host
     template_name: templates/test-systemd
     image: nginx:1.11
+    host_copy: []
+    network: host
+
+  # Cover optional host_copy
+  - name: nginx-host
+    template_name: templates/test-systemd
+    image: nginx:1.11
     network: host
 
 default_docker_options: '--add-host test:8.8.8.8'
