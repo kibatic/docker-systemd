@@ -1,5 +1,6 @@
 - name: create unit
   with_items: "{{systemd_units}}"
+  no_log: True
   template: src={{ item.template_name|default('default') }}.service.j2
             dest=/lib/systemd/system/{{ item.name }}.service
   tags:
@@ -14,6 +15,7 @@
 
 - name: create env file
   with_items: "{{systemd_units}}"
+  no_log: True
   template: src=environment.j2
             dest="/etc/sysconfig/{{ item.name }}"
   tags:
@@ -51,6 +53,7 @@
 
 - name: create docker networks
   with_items: "{{systemd_units}}"
+  no_log: True
   shell: docker network create {{ item.network|default(default_network_name) }} || true
   tags:
       - systemd
@@ -64,6 +67,7 @@
 
 - name: enable service
   shell: systemctl enable {{ item.name }}
+  no_log: True
   with_items: "{{systemd_units}}"
   tags:
       - systemd
@@ -72,6 +76,7 @@
 - name: restart service
   when: item.restart_unit|default(restart_units) == true
   with_items: "{{systemd_units}}"
+  no_log: True
   shell: "systemctl restart {{ item.name }}"
   tags:
       - systemd
