@@ -72,6 +72,9 @@ ExecStart=/usr/bin/docker run {{ default_docker_options }}
 {%- if unit.expose is defined and unit.expose is iterable %}
  --expose {{ unit.expose|join(',') }}
 {%- endif %}
+{%- if unit.user is defined %}
+ --user={{ unit.user }}
+{%- endif %}
  --name {{ unit_name }} {{ unit.image }} {% if unit.command is defined %}{{ unit.command }}{% endif %}
 
 ExecStop=/usr/bin/docker kill {{ unit_name }}
