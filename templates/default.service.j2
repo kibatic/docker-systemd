@@ -66,6 +66,9 @@ ExecStart=/usr/bin/docker run {{ default_docker_options }}
 {%- if unit.privileged is defined %}
  --privileged
 {%- endif %}
+{%- if unit.hostname is defined %}
+ --hostname={{ unit.hostname }}
+{%- endif %}
 {%- if unit.options is defined %}
  {{ unit.options }}
 {%- endif %}
